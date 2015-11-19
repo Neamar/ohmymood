@@ -1,13 +1,19 @@
 package fr.neamar.ohmymood;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RemoteViews;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +32,26 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                intent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setCategory(NotificationCompat.CATEGORY_SOCIAL)
+                .setSmallIcon(R.mipmap.ic_launcher).build();
+
+        notification.contentView = new RemoteViews(this.getPackageName(),
+                R.layout.notification_layout);//set your custom layout
+
+        final NotificationManager notificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        final int noteId = 1232;
+
+        notificationManager.notify(noteId, notification);
     }
 
     @Override
