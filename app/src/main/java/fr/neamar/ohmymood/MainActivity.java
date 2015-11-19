@@ -10,10 +10,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import fr.neamar.ohmymood.db.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
     public static int NOTIFICATION_ID = 1;
@@ -37,16 +43,25 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                displayNotification();
+                Snackbar.make(view, "Notification displayed!", Snackbar.LENGTH_LONG).show();
             }
         });
 
-        if (getIntent().hasExtra("smiley")) {
-            Snackbar.make(fab, "Clicked on a smiley.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+        ArrayList<Pair<Integer, Integer>> moods = DBHelper.getMoods(this);
+
+        if(moods.size() > 0) {
+            StringBuilder builder = new StringBuilder();
+            for(Pair<Integer, Integer> mood : moods) {
+                builder.append(mood.first + " : " + mood.second + "\n");
+            }
+
+            ((TextView) findViewById(R.id.recap)).setText(builder.toString());
         }
 
+    }
+
+    public void displayNotification() {
         RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.notification_layout);
 
         Notification notification = new NotificationCompat.Builder(this)
@@ -68,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
