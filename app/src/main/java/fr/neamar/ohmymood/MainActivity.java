@@ -16,6 +16,15 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 public class MainActivity extends AppCompatActivity {
+    public static int NOTIFICATION_ID = 1;
+    public static int[] smileysIds = new int[]{
+            R.id.smiley1,
+            R.id.smiley2,
+            R.id.smiley3,
+            R.id.smiley4,
+            R.id.smiley5
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,25 +42,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent(this, MainActivity.class);
+        if (getIntent().hasExtra("smiley")) {
+            Snackbar.make(fab, "Clicked on a smiley.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                intent, 0);
+        RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.notification_layout);
 
         Notification notification = new NotificationCompat.Builder(this)
-                .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SOCIAL)
-                .setSmallIcon(R.mipmap.ic_launcher).build();
+                .setContent(remoteViews)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .build();
 
-        notification.contentView = new RemoteViews(this.getPackageName(),
-                R.layout.notification_layout);//set your custom layout
+        for (int i = 0; i < smileysIds.length; i++) {
+            Intent voteIntent = new Intent("save_mood");
+            voteIntent.putExtra("smiley", i + 1);
 
-        final NotificationManager notificationManager =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        final int noteId = 1232;
+            PendingIntent pendingVoteIntent = PendingIntent.getBroadcast(this, i, voteIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            remoteViews.setOnClickPendingIntent(smileysIds[i], pendingVoteIntent);
+        }
 
-        notificationManager.notify(noteId, notification);
+        final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     @Override

@@ -10,34 +10,35 @@
         android:id="@+id/smiley1"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="fill_parent"
         android:src="@drawable/smiley_1" />
 
     <ImageView
         android:id="@+id/smiley2"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="fill_parent"
         android:src="@drawable/smiley_2" />
 
     <ImageView
         android:id="@+id/smiley3"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="fill_parent"
+        android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/smiley_3" />
 
     <ImageView
         android:id="@+id/smiley4"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="fill_parent"
         android:src="@drawable/smiley_4" />
 
     <ImageView
         android:id="@+id/smiley5"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="fill_parent"
         android:src="@drawable/smiley_5" />
 </LinearLayout>
