@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < smileysIds.length; i++) {
             Intent voteIntent = new Intent("save_mood");
-            voteIntent.putExtra("smiley", i + 1);
+            voteIntent.putExtra("mood", i + 1);
 
             PendingIntent pendingVoteIntent = PendingIntent.getBroadcast(this, i, voteIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             remoteViews.setOnClickPendingIntent(smileysIds[i], pendingVoteIntent);
