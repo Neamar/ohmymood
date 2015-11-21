@@ -14,15 +14,9 @@ import java.util.Calendar;
  * Created by neamar on 19/11/15.
  */
 public class DBHelper {
-    private static SQLiteDatabase db = null;
-
     private static SQLiteDatabase getDB(Context context) {
-        if (db == null) {
-            DB dbScheme = new DB(context);
-            db = dbScheme.getReadableDatabase();
-        }
-
-        return db;
+        DB dbScheme = new DB(context);
+        return dbScheme.getReadableDatabase();
     }
 
     public static void insertMood(Context context, int moodId) {
@@ -38,6 +32,7 @@ public class DBHelper {
         values.put("date", date);
 
         db.insert(DB.MOODS_TABLE, null, values);
+        db.close();
     }
 
     public static ArrayList<Pair<Integer, Integer>> getMoods(Context context) {
