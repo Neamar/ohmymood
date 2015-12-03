@@ -24,7 +24,7 @@ public class DBHelper {
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
-        SimpleDateFormat sqlFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sqlFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String date = sqlFormatter.format(cal.getTime());
 
         ContentValues values = new ContentValues();
